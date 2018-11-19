@@ -27,6 +27,9 @@ namespace TJS.VIMS.ViewModel
         //public Employee Employee { get; set; }
         //public Location Location { get; set; }
 
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }
+
         //[Required]
         [Display(Name = "AdminName")]
         public string AdminName { get; set; }

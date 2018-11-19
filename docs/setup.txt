@@ -12,3 +12,29 @@
 	The only part that needs to change is "data source={SERVER_NAME}".
 
 8. Build & Debug (must be connected to internet the first run so nuget can download packages)
+
+
+For MacOS:
+1. `brew install mono`
+https://www.mono-project.com/docs/getting-started/install/mac/
+```
+ln -s /Library/Frameworks/Mono.framework/Commands/{mono,msbuild,xsp4} /usr/local/bin
+```
+2. Download `nuget.exe` from https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools
+3.
+```
+mono nuget.exe install TJS.VIMS/TJS.VIMS/packages.config -OutputDirectory TJS.VIMS/packages
+mono nuget.exe install TJS.VIMS/UnitTest/packages.config -OutputDirectory TJS.VIMS/packages
+```
+4. Remove `Microsoft.CodeDom.Providers.DotNetCompilerPlatform` and `Microsoft.Net.Compilers` from `packages.config` and the `Import` and `Error` tags that reference those packages in `TJS.VIMS.csproj`
+5. Install https://github.com/mono/xsp
+6. ```
+msbuild TJS.VIMS/TJS.VIMS.sln
+(cd TJS.VIMS/TJS.VIMS && xsp4 --port 8080)
+``
+
+
+5. Modify the `connectionString` in `Web.config` to `data source=127.0.0.1,1433;initial catalog=VIMSAuthDB;user id=sa;password=reallyStrongPwd123`
+d run -d --rm --name sql_server -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=reallyStrongPwd123' -p 1433:1433 -v `pwd`/VIMS.DB:/vims microsoft/mssql-server-linux
+d exec -it sql_server /opt/mssql-tools/bin/sqlcmd -U sa -P reallyStrongPwd123 -Q "CREATE DATABASE VIMS_DEV"
+d exec -it sql_server /opt/mssql-tools/bin/sqlcmd -U sa -P reallyStrongPwd123 -i /vims/create.dev.sql

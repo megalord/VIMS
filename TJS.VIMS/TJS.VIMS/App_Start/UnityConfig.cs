@@ -1,6 +1,6 @@
 using System.Web.Mvc;
-using Microsoft.Practices.Unity;
-using Unity.Mvc5;
+using Unity;
+using Unity.AspNet.Mvc;
 using TJS.VIMS.DAL;
 
 namespace TJS.VIMS
